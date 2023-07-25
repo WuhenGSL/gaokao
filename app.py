@@ -1,4 +1,4 @@
-from flask import Flask, flash, redirect, request, url_for, render_template,jsonify
+from flask import Flask, flash, redirect, request, url_for, render_template, session
 from models import RegisterForm, db, LoginForm, User
 from flask_sijax import Sijax
 
@@ -17,14 +17,21 @@ Sijax(app)
 
 
 @app.route('/')
-def master():
+def index():
     return 'hello!'
 
 
-@app.route('/user', methods=['GET', 'POST'])
+@app.route('/login/', methods=['GET', 'POST'])
 def login():
     login_form = LoginForm()
     register_form = RegisterForm()
+
+    if 'user_name' in session:
+        check = User.query.filter_by(name=session['user_name']).first()
+        if check.score == 0:
+            return redirect(url_for('profile'))
+        elif check.score != 0:
+            return redirect(url_for('user_profile'))
 
     if request.method == 'POST':
         if request.form['action'] == 'login':
@@ -34,8 +41,9 @@ def login():
                 user = User.query.filter(User.email == email).first()
 
                 if user and user.check_password(password):
+                    session['user_name'] = user.name
                     flash('登录成功', 'success')
-                    return redirect('/')  # 重定向到根目录
+                    return redirect(url_for('index'))  # 重定向到根目录
                 else:
                     flash('登录失败，请检查邮箱或密码', 'error')
 
@@ -59,63 +67,45 @@ def login():
     return render_template('login.html', login_form=login_form, register_form=register_form)
 
 
+@app.route('/profile/', methods=['GET', 'POST'])
+def profile():
+    username = session['user_name']
+    user = User.query.filter_by(name=username).first()
+
+    if request.method == 'POST':
+        score = int(request.form['score'])
+        rank = int(request.form['rank'])
+        selected_subjects = request.form.get('selectedSubjects').split(',')
+
+        if user:
+            user.score = score
+            user.rank = rank
+            user.subject1 = selected_subjects[0]
+            user.subject2 = selected_subjects[1]
+            user.subject3 = selected_subjects[2]
+
+            try:
+                db.session.commit()
+                return redirect(url_for('user_profile'))
+            except Exception as e:
+                print(e)
+    return render_template('profile.html')
 
 
+@app.route('/user_profile/', methods=['GET', 'POST'])
+def user_profile():
+    username = session['user_name']
+    user = User.query.filter_by(name=username).first()
+    return render_template('user_profile.html', user=user)
 
 
-@app.route('/login1', methods=['GET', 'POST'])
-def login1():
-    form = LoginForm()
-    if form.validate_on_submit():
-        email = form.email.data
-        password = form.password.data
-
-        user = User.query.filter(User.email == email).first()  # 使用filter方法而不是filter_by
-        if user and user.check_password(password):
-            flash('登录成功', 'success')
-            return redirect(url_for('index'))
-        else:
-            flash('登录失败，请验证邮箱和密码', 'error')
-
-    return render_template('login1.html', form=form)
-
-
-@app.route('/register1', methods=['GET', 'POST'])
-def register1():
-    form = RegisterForm()
-    if form.validate_on_submit():
-        email = form.email.data
-        password = form.password.data
-        confirm_password = form.confirm_password.data
-
-        if User.query.filter_by(email=email).all():
-            flash('该邮箱已被注册', 'error')
-            return redirect(url_for('register'))
-
-        if password != confirm_password:
-            flash('确认密码与密码不一致', 'error')
-            return redirect(url_for('register'))
-
-        try:
-            new_user = User(email=email, password=password)
-            db.session.add(new_user)
-            db.session.commit()
-            flash('注册成功！请登录', 'success')
-            return redirect(url_for('login'))
-        except Exception as e:
-            flash(f'注册失败: {e}', 'error')
-
-    return render_template('register.html', form=form)
-
-
-
-@app.route('/schools')
-def show_schools():
-    # 获取学校信息
-    schools = school_db_manager.get_all_schools()
-    return render_template('schools.html', schools=schools)
+@app.route('/logout/')
+def logout():
+    session.pop('user_name', True)
+    flash('注销成功')
+    return redirect('/')
 
 
 if __name__ == '__main__':
-
+    session.clear()
     app.run(port=8000, debug=True)

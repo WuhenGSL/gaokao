@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, StringField, PasswordField
+from wtforms import SubmitField, StringField, PasswordField, IntegerField
 from wtforms.validators import DataRequired, Email, EqualTo
 from flask_sqlalchemy import SQLAlchemy
 
@@ -23,10 +23,8 @@ class LoginForm(FlaskForm):
 
 
 class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True, default='0')
-    name = db.Column(db.String(100), default='未填')
+    name = db.Column(db.String(100), primary_key=True, unique=True, default='未填')
     email = db.Column(db.String(120), unique=True, default='未填')
-    gender = db.Column(db.String(10), default='未填')
     score = db.Column(db.Integer, default=0)
     rank = db.Column(db.Integer, default=0)
     password = db.Column(db.String(128), default='未填')

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>山东新高考志愿填报</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://cdn.bootcss.com/Chart.js/2.5.0/Chart.js"></script>
+    <style>
+main {
+    padding: 20px;
+    text-align: center;
+}
+
+form {
+    display: inline-block;
+    text-align: center;
+}
+input[type="text"],
+select,
+input[type="number"] {
+    width: 200px;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+button[type="submit"] {
+    padding: 10px 200px;
+    background-color: blue;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    margin-top: 40px;
+}
+
+button[type="submit"]:hover {
+    background-color: #f5f5f5;
+    color: #333;
+}
+.flex-container {
+    display: -webkit-flex;
+    display: flex;
+    width: 100%;
+    height: auto;
+    background-color: lightgrey;
+    border-radius: 25px;
+}
+.flex-item {
+    width: 100%;
+    height: auto;
+    margin: 10px;
+    text-align: center;
+}
+
+    .box {
+      width: 100px;
+      height: 100px;
+      border-radius: 25%;
+      border: 1px solid black;
+      line-height: 100px;
+      margin: 10px;
+      cursor: pointer;
+    }
+
+    .selected {
+      background-color:cornflowerblue;
+    }
+    .color{
+      color:grey;
+    }
+</style>
+</head>
+<body>
+      <main>
+        <h2>完善高考志愿填报信息</h2>
+        <div class="color"><p>输入高考成绩信息，获得精准志愿推荐</p></div>
+        
+    
+        <form id="form" action="/profile" method="post">
+           
+            <label for="score">高考成绩:</label>
+            <input type="number" id="score" name="score" min="0"  max='750' required><br>
+
+            <label for="rank">高考排名:</label>
+            <input type="number" id="rank" name="rank" min="0"  required><br>
+            <h3>选考科目</h3>
+            <p><div class="color">请选择考试科目</div></p>
+          <div class="flex-container">
+            <div class="flex-item">
+                <div class="box" onclick="toggleColor(this)"><b>物理</b></div>
+                <div class="box" onclick="toggleColor(this)"><b>政治</b></div>
+            </div>
+            <div class="flex-item">
+                <div class="box" onclick="toggleColor(this)"><b>化学</b></div>
+                <div class="box" onclick="toggleColor(this)"><b>历史</b></div>
+            </div>
+            <div class="flex-item">
+              <div class="box" onclick="toggleColor(this)"><b>生物</b></div>
+              <div class="box" onclick="toggleColor(this)"><b>地理</b></div>
+            </div> 
+          </div>
+ <input type="hidden" id="selectedSubjects" name="selectedSubjects" value="">
+ <div style="text-align:center ">
+            <button type="submit"><strong>完成</strong></button>
+            </div>
+        </form>
+          <script>
+            let selectedCount = 0;
+
+            function toggleColor(element) {
+            if (element.classList.contains('selected')) {
+                element.classList.remove('selected');
+                selectedCount--;
+            } else {
+                if (selectedCount < 3) {
+                    element.classList.add('selected');
+                    selectedCount++;
+                }
+            }
+
+        // 获取所有选中的科目
+            const selectedBoxes = document.querySelectorAll('.box.selected');
+            const selectedSubjects = Array.from(selectedBoxes).map(box => box.innerText);
+            document.getElementById('selectedSubjects').value = selectedSubjects.join(',');
+        }
+        </script>
+        </main>
+
+</body>
+</html>
+
+
+ 
