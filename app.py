@@ -1,6 +1,6 @@
 from flask import Flask, flash, redirect, request, url_for, render_template, session
-from models import RegisterForm, db, LoginForm, User
-from flask_sijax import Sijax
+from models import RegisterForm, db, LoginForm, User, Schools
+from sqlalchemy.sql import or_
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:12345678@localhost:3306/userdb'
@@ -9,11 +9,6 @@ app.config['SQLALCHEMY_BINDS'] = {
 }
 app.config['SECRET_KEY'] = '12345678'
 db.init_app(app)
-
-path = "static/js/sijax"
-app.config['SIJAX_STATIC_PATH'] = path
-app.config['SIJAX_JSON_URI'] = path + 'json2.js'
-Sijax(app)
 
 
 @app.route('/')
@@ -106,6 +101,72 @@ def logout():
     return redirect('/')
 
 
+def get_list(rank, selection1, selection2, selection3, flag):
+    minrank = float(rank) - float(rank) * 0.005 * 50  # 最小名次  minrank 冲 bound1 稳 bound2 保 bound2+10000
+    bound1 = float(rank) + float(rank) * 0.01 * 9
+    bound2 = float(rank) + float(rank) * 0.01 * 39
+    # list=School.query.get(1)
+    if flag == 1:
+        lists = Schools.query.filter(Schools.forelowest_rank > minrank, Schools.forelowest_rank < bound1,
+                                    or_(Schools.mustspe == selection1, Schools.mustspe == selection2,
+                                        Schools.mustspe == selection3,
+                                        Schools.mustspe == None))  # 冲  注意返回值的是query ","而不用and ,导入_and,_or后使用，None与Null
+
+    elif flag == 2:
+        lists = Schools.query.filter(Schools.forelowest_rank > bound1, Schools.forelowest_rank < bound2,
+                                    or_(Schools.mustspe == selection1, Schools.mustspe == selection2,
+                                        Schools.mustspe == selection3, Schools.mustspe == None))  # 稳
+
+    elif flag == 3:
+        lists = Schools.query.filter(Schools.forelowest_rank > bound2, Schools.forelowest_rank < bound2 + 10000,
+                                    or_(Schools.mustspe == selection1, Schools.mustspe == selection2,
+                                        Schools.mustspe == selection3, Schools.mustspe == None))  # 保
+
+    return lists
+
+
+def get_probability(rank, lists, flag):
+    if flag == 1:
+        for sc in lists:
+            probability = int(50 + ((sc.forelowest_rank) - int(rank)) / (float(rank) * 0.005)) + 1
+            sc.probability = probability
+            print(sc.school, sc.specialty, sc.mustspe, sc.forelowest_rank, "概率:", probability, "%")
+
+
+    elif flag == 2:
+        for sc in lists:
+            probability = int(50 + ((sc.forelowest_rank) - int(rank)) / (float(rank) * 0.01)) + 1
+            sc.probability = probability
+
+    elif flag == 3:
+        for sc in lists:
+            probability = int(50 + ((sc.forelowest_rank) - int(rank)) / (float(rank) * 0.01)) + 1
+            if probability > 99:
+                probability = 99
+            sc.probability = probability
+
+
+@app.route('/add_selection/', methods=['GET', 'POST'])
+def add_selection():
+    page = request.args.get('page', 1, type=int)
+    PER_PAGE = 10
+
+    username = session['user_name']
+    user = User.query.filter_by(name=username).first()
+    list1 = get_list(user.rank, user.subject1, user.subject2, user.subject3, 1)
+    list2 = get_list(user.rank, user.subject1, user.subject2, user.subject3, 2)
+    list3 = get_list(user.rank, user.subject1, user.subject2, user.subject3, 3)
+    get_probability(user.rank, list1, 1)
+    get_probability(user.rank, list2, 2)
+    get_probability(user.rank, list3, 3)
+    schools1 = list1.paginate(page=page, per_page=PER_PAGE, error_out=False)
+    schools2 = list2.paginate(page=page, per_page=PER_PAGE, error_out=False)
+    schools3 = list3.paginate(page=page, per_page=PER_PAGE, error_out=False)
+    return render_template('add_selection.html',
+                           Schools1=schools1,
+                           Schools2=schools2,
+                           Schools3=schools3)
+
+
 if __name__ == '__main__':
-    session.clear()
     app.run(port=8000, debug=True)

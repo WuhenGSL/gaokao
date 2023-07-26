@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"> 
+<title>智能填报志愿</title> 
+<style> 
+.flex-container {
+    display: -webkit-flex;
+    display: flex;
+    width: width;
+    height: 150px;
+    -webkit-justify-content: space-around;
+    justify-content: space-around;
+    background-color: lightgrey;
+    border-bottom: 1px solid black;
+}
+
+.flex-item {
+    
+    width: 15%;
+    height: 100px;
+    margin: 10px;
+}
+.flex-item1 {
+   
+    width: 5%;
+    height: 100px;
+    margin: 10px;
+}
+.flex-item2 {
+    
+    width: 25%;
+    height: 100px;
+    margin: 10px;
+}
+.box {
+      width: 60px;
+      border: 1px solid orange;
+      padding: 10px;
+      color: orange;
+      border-radius: 10px;
+      margin-top: 25px;
+      text-align: center;
+    }
+.box1 {
+      width: 150px;
+      padding: 5px;
+      border: 1px solid orange;
+      color: orange;
+      border-radius: 10px;
+      text-align: center;
+
+    }
+    .box2 {
+      width: 150px;
+      padding: 5px;
+      border: 1px solid orange;
+      color: orange;
+      border-radius: 10px;
+      margin-top: 30px;
+      text-align: center;
+
+    }
+    .box2:hover {background-color: #3e8e41}
+
+    .box2:active {
+      background-color: #3e8e41;
+      box-shadow: 0 5px #666;
+      transform: translateY(4px);
+    }
+
+
+
+    .size{
+      color:grey;
+      font-size: smaller;
+    }
+
+
+    .flex-container1 {
+    display: -webkit-flex;
+    display: flex;
+    width: width;
+    height: 40px;
+    -webkit-justify-content: space-around;
+    justify-content: space-around;
+    background-color: gray;
+    border-bottom: 1px solid black;
+}
+.right{
+  float:right;
+  font-size: larger;
+  color:lightblue;
+}
+header {
+    height: 90px;
+    text-align: center;
+}
+  /*消除下划线*/
+  a{TEXT-DECORATION:none}
+</style>
+</head>
+<body>
+  <header>
+  <h1>智能填报志愿</h1>
+  <p><div class="right"><a href="https://www.sdzk.cn/">查看我的志愿单</a></div></p>
+  </header>
+  <div class="flex-container1">
+      <div class="flex-item1"> &nbsp;录取概率</div>
+      <div class="flex-item">招生院校</div>
+      <div class="flex-item">2023招生计划</div>
+      <div class="flex-item2">历年 &nbsp;2021 &nbsp;&nbsp;2022 &nbsp;&nbsp;2023</div>  
+      <div class="flex-item">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;操作</div>  
+  </div>
+<div id="school-list">
+  {% for School in Schools1.items %}
+<div class="flex-container">
+  <div class="flex-item1">
+    <div class="box">{{ School.probability }}%冲</div>
+  </div>
+  <div class="flex-item">
+  <p>{{ School.school }}</p>
+  <p><div class="size">{{ School.locality }}&nbsp;{{ School.feature }}&nbsp;</div>
+  <p><div class="box1">历史分数波动较小</div></p>
+  </div>
+  <div class="flex-item">
+    <p>{{ School.specialty }}</p>
+    <p><div class="size">招生人数：{{ School.plannum_2023 }}&nbsp;学制：4</div></p>
+    <p>科目：{{ School.mustspe }}</p>
+  </div>  
+  <div class="flex-item2">
+    <p>位次 &nbsp;{{ School.lowest_rank2023 }}名 &nbsp;{{ School.lowest_rank2022 }}名 &nbsp;{{ School.lowest_rank2021 }}名 &nbsp;</p>
+    <p>人数 &nbsp;{{ School.plannum_2023 }}人 &nbsp;{{ School.plannum_2022 }}人 &nbsp;{{ School.plannum_2021 }}人 &nbsp;</p>
+</div>
+<div class="flex-item">
+  <div class="box2"><strong>+添加到志愿单</strong></div>
+</div>
+</div>
+{% endfor %}
+
+  {% for School in Schools2.items %}
+<div class="flex-container">
+  <div class="flex-item1">
+    <div class="box">{{ School.probability }}%稳</div>
+  </div>
+  <div class="flex-item">
+  <p>{{ School.school }}</p>
+  <p><div class="size">{{ School.locality }}&nbsp;{{ School.feature }}&nbsp;</div>
+  <p><div class="box1">历史分数波动较小</div></p>
+  </div>
+  <div class="flex-item">
+    <p>{{ School.specialty }}</p>
+    <p><div class="size">招生人数：{{ School.plannum_2023 }}&nbsp;学制：4</div></p>
+    <p>科目：{{ School.mustspe }}</p>
+  </div>
+  <div class="flex-item2">
+    <p>位次 &nbsp;{{ School.lowest_rank2023 }}名 &nbsp;{{ School.lowest_rank2022 }}名 &nbsp;{{ School.lowest_rank2021 }}名 &nbsp;</p>
+    <p>人数 &nbsp;{{ School.plannum_2023 }}人 &nbsp;{{ School.plannum_2022 }}人 &nbsp;{{ School.plannum_2021 }}人 &nbsp;</p>
+</div>
+<div class="flex-item">
+  <div class="box2"><strong>+添加到志愿单</strong></div>
+</div>
+</div>
+{% endfor %}
+
+  {% for School in Schools3.items %}
+<div class="flex-container">
+  <div class="flex-item1">
+    <div class="box">{{ School.probability }}%保</div>
+  </div>
+  <div class="flex-item">
+  <p>{{ School.school }}</p>
+  <p><div class="size">{{ School.locality }}&nbsp;{{ School.feature }}&nbsp;</div>
+  <p><div class="box1">历史分数波动较小</div></p>
+  </div>
+  <div class="flex-item">
+    <p>{{ School.specialty }}</p>
+    <p><div class="size">招生人数：{{ School.plannum_2023 }}&nbsp;学制：4</div></p>
+    <p>科目：{{ School.mustspe }}</p>
+  </div>
+  <div class="flex-item2">
+    <p>位次 &nbsp;{{ School.lowest_rank2023 }}名 &nbsp;{{ School.lowest_rank2022 }}名 &nbsp;{{ School.lowest_rank2021 }}名 &nbsp;</p>
+    <p>人数 &nbsp;{{ School.plannum_2023 }}人 &nbsp;{{ School.plannum_2022 }}人 &nbsp;{{ School.plannum_2021 }}人 &nbsp;</p>
+</div>
+<div class="flex-item">
+  <div class="box2"><strong>+添加到志愿单</strong></div>
+</div>
+</div>
+{% endfor %}
+</div>
+
+<nav aria-label="Page navigation">
+  <ul class="pagination justify-content-center" id="pagination">
+    {% if Schools1.has_prev %}
+      <li class="page-item"><a class="page-link" href="?page={{ Schools1.prev_num }}">Previous</a></li>
+    {% else %}
+      <li class="page-item disabled"><span class="page-link">Previous</span></li>
+    {% endif %}
+
+    {% for num in Schools1.iter_pages() %}
+      {% if num %}
+        {% if num == Schools1.page %}
+          <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+        {% else %}
+          <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+
+    {% if Schools1.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{ Schools1.next_num }}">Next</a></li>
+    {% else %}
+      <li class="page-item disabled"><span class="page-link">Next</span></li>
+    {% endif %}
+  </ul>
+</nav>
+
+
+</body>
+</html>

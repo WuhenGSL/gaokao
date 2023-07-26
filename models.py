@@ -43,13 +43,26 @@ class User(db.Model):
         return cls.query.filter(email=email).first()
 
 
-class School(db.Model):
+class Schools(db.Model):
     __bind_key__ = 'database'
-    id = db.Column(db.Integer, primary_key=True)
-    specialty = db.Column(db.String(200))
-    school = db.Column(db.String(200))
-    plan_number = db.Column(db.Integer)
-    lowest_rank = db.Column(db.Integer)
+    __tablename__ = 'hetouce'
 
-    def __repr__(self):
-        return f"<School {self.name}>"
+    id = db.Column(db.Integer, primary_key=True)
+    specialty = db.Column(db.String(255))
+    specialityi = db.Column(db.String(255))
+    Schoolid = db.Column(db.Integer)
+    school = db.Column(db.String(255))
+    plannum_2023 = db.Column(db.Integer)
+    lowest_rank2023 = db.Column(db.Integer)
+    lowest_rank2022 = db.Column(db.Integer)
+    plannum_2022 = db.Column(db.Integer)
+    lowest_rank2021 = db.Column(db.Integer)
+    plannum_2021 = db.Column(db.Integer)
+    forelowest_rank = db.Column(db.Integer)
+    Type = db.Column(db.String(255))
+    mustspe = db.Column(db.String(255), default='无限制')
+    department = db.Column(db.String(255))
+    locality = db.Column(db.String(255))
+    feature = db.Column(db.String(255))
+    probability = db.Column(db.Integer)
+
