@@ -1,5 +1,5 @@
-from flask import Flask, flash, redirect, request, url_for, render_template, session
-from models import RegisterForm, db, LoginForm, User, Schools
+from flask import Flask, flash, redirect, request, url_for, render_template, session, render_template_string
+from models import RegisterForm, db, LoginForm, User, Schools, UserSelection, AddSelectionForm
 from sqlalchemy.sql import or_
 
 app = Flask(__name__)
@@ -10,10 +10,12 @@ app.config['SQLALCHEMY_BINDS'] = {
 app.config['SECRET_KEY'] = '12345678'
 db.init_app(app)
 
+cnt = 0
+
 
 @app.route('/')
 def index():
-    return 'hello!'
+    return render_template('index.html')
 
 
 @app.route('/login/', methods=['GET', 'POST'])
@@ -130,8 +132,6 @@ def get_probability(rank, lists, flag):
         for sc in lists:
             probability = int(50 + ((sc.forelowest_rank) - int(rank)) / (float(rank) * 0.005)) + 1
             sc.probability = probability
-            print(sc.school, sc.specialty, sc.mustspe, sc.forelowest_rank, "概率:", probability, "%")
-
 
     elif flag == 2:
         for sc in lists:
@@ -148,6 +148,8 @@ def get_probability(rank, lists, flag):
 
 @app.route('/add_selection/', methods=['GET', 'POST'])
 def add_selection():
+    form = AddSelectionForm()
+
     page = request.args.get('page', 1, type=int)
     PER_PAGE = 10
 
@@ -162,10 +164,58 @@ def add_selection():
     schools1 = list1.paginate(page=page, per_page=PER_PAGE, error_out=False)
     schools2 = list2.paginate(page=page, per_page=PER_PAGE, error_out=False)
     schools3 = list3.paginate(page=page, per_page=PER_PAGE, error_out=False)
+
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            id = form.id.data
+            school = Schools.query.filter_by(id=id).first()
+            max_id = db.session.execute('SELECT MAX(id) FROM userselection').scalar()
+
+            if max_id is None:
+                max_id = 0
+
+            new_info = UserSelection(id=max_id+1,
+                                     school=school.school,
+                                     specialty=school.specialty,
+                                     lowest_rank=school.forelowest_rank,
+                                     feature=school.feature,
+                                     probability=school.probability,
+                                     name=username)
+
+            db.session.add(new_info)
+            db.session.commit()
+
     return render_template('add_selection.html',
                            Schools1=schools1,
                            Schools2=schools2,
-                           Schools3=schools3)
+                           Schools3=schools3,
+                           form=form)
+
+
+@app.route('/selection/', methods=['GET', 'POST'])
+def selection():
+    username = session['user_name']
+    user = UserSelection.query.filter_by(name=username).all()
+    information = User.query.filter_by(name=username).first()
+    total = UserSelection.query.count()
+
+    form = AddSelectionForm()
+
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            id = form.id.data
+            to_delete = UserSelection.query.get_or_404(id)
+            db.session.delete(to_delete)
+            db.session.commit()
+            db.session.execute(f'UPDATE userselection SET id = id - 1 WHERE id > {id}')
+            db.session.commit()
+            return render_template_string("""
+                    <script>
+                        window.location.href = "{{ url_for('selection') }}";
+                    </script>
+                """)
+
+    return render_template('selection.html', Users=user, info=information, total=total, form=form)
 
 
 if __name__ == '__main__':

@@ -103,7 +103,7 @@ header {
 <body>
   <header>
   <h1>智能填报志愿</h1>
-  <p><div class="right"><a href="https://www.sdzk.cn/">查看我的志愿单</a></div></p>
+  <p><div class="right"><a href="{{ url_for('selection') }}">查看我的志愿单</a></div></p>
   </header>
   <div class="flex-container1">
       <div class="flex-item1"> &nbsp;录取概率</div>
@@ -133,7 +133,12 @@ header {
     <p>人数 &nbsp;{{ School.plannum_2023 }}人 &nbsp;{{ School.plannum_2022 }}人 &nbsp;{{ School.plannum_2021 }}人 &nbsp;</p>
 </div>
 <div class="flex-item">
-  <div class="box2"><strong>+添加到志愿单</strong></div>
+  <form action="/add_selection/" method="post">
+    {{ form.csrf_token }}
+    {{ form.id(value=School.id) }}
+    <div class="box2"><button type="submit">+添加到志愿单</button></div>
+</form>
+
 </div>
 </div>
 {% endfor %}
@@ -158,7 +163,12 @@ header {
     <p>人数 &nbsp;{{ School.plannum_2023 }}人 &nbsp;{{ School.plannum_2022 }}人 &nbsp;{{ School.plannum_2021 }}人 &nbsp;</p>
 </div>
 <div class="flex-item">
-  <div class="box2"><strong>+添加到志愿单</strong></div>
+ <form action="/add_selection/" method="post">
+    {{ form.csrf_token }}
+    {{ form.id(value=School.id) }}
+    <div class="box2"><button type="submit">+添加到志愿单</button></div>
+</form>
+
 </div>
 </div>
 {% endfor %}
@@ -183,7 +193,12 @@ header {
     <p>人数 &nbsp;{{ School.plannum_2023 }}人 &nbsp;{{ School.plannum_2022 }}人 &nbsp;{{ School.plannum_2021 }}人 &nbsp;</p>
 </div>
 <div class="flex-item">
-  <div class="box2"><strong>+添加到志愿单</strong></div>
+<form action="/add_selection/" method="post">
+    {{ form.csrf_token }}
+    {{ form.id(value=School.id) }}
+    <div class="box2"><button type="submit">+添加到志愿单</button></div>
+</form>
+
 </div>
 </div>
 {% endfor %}

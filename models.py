@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, StringField, PasswordField, IntegerField
+from wtforms import SubmitField, StringField, PasswordField, HiddenField
 from wtforms.validators import DataRequired, Email, EqualTo
 from flask_sqlalchemy import SQLAlchemy
 
@@ -23,6 +23,8 @@ class LoginForm(FlaskForm):
 
 
 class User(db.Model):
+    __tablename__ = 'user'
+
     name = db.Column(db.String(100), primary_key=True, unique=True, default='未填')
     email = db.Column(db.String(120), unique=True, default='未填')
     score = db.Column(db.Integer, default=0)
@@ -66,3 +68,19 @@ class Schools(db.Model):
     feature = db.Column(db.String(255))
     probability = db.Column(db.Integer)
 
+
+class UserSelection(db.Model):
+    __tablename__ = 'userselection'
+
+    id = db.Column(db.Integer, primary_key=True)
+    school = db.Column(db.String(255))
+    specialty = db.Column(db.String(255))
+    lowest_rank = db.Column(db.Integer)
+    feature = db.Column(db.String(255))
+    probability = db.Column(db.Integer)
+    name = db.Column(db.String(255))
+
+
+class AddSelectionForm(FlaskForm):
+    id = HiddenField('id')
+    submit = SubmitField('添加到志愿单')

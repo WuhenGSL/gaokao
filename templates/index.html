@@ -1,74 +1,348 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta http-equiv="content-type" content="text/html;
-  charset=utf-8">
-  <meta name="viewport" content="width=device-width,
-  initial-scale=1,maximum-scale=1.user-scalable=no">
+    <title>高考志愿填报网站</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
+        /* 页面样式 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
 
-  <title>登陆注册</title>
-  <link rel="stylesheet" href="../css/81.css">
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px;
+}
+
+nav ul li a:hover {
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+main {
+    padding: 20px;
+    text-align: center;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
+/*学校*/
+.box-link {
+      display: inline-block;
+      width: 200px;
+      border: 1px solid #000;
+      padding: 10px;
+      text-decoration: none;
+      color: #000;
+      margin-left:200px;
+      text-align: center;
+      border-radius: 25px;
+      background-color: aliceblue;
+    }
+
+    .box-link img {
+      display: block;
+      margin-bottom: 10px;
+      width: 200px;
+      height: auto;
+    }
+    .flex-container {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: center;
+    justify-content: center;
+    width: 100%;
+    height: 330px;
+}
+  /*专业*/
+    .box-link1 {
+      display: inline-block;
+      width: 200px;
+      border: 0px solid #000;
+      padding: 10px;
+      text-decoration: none;
+      color: #000;
+      margin-left:100px;
+      margin-top: 50px;
+      text-align: center;
+      border-radius: 25px;
+      background-color: aliceblue;
+    }
+
+.right {
+  float:right
+}
+
+nav1 ul a{
+  color: black;
+    text-decoration: none;
+  }
+  nav1 ul li a:hover {
+    color: #FF00FF;
+    text-decoration: underline;
+  }
+  a:link{
+    text-decoration: none;
+  }
+  .slideshow-container {
+  position: relative;
+  max-width: 50%;
+  margin: auto;
+}
+
+.slide {
+  display: none;
+  border:5px solid lightgreen;
+  border-radius: 8px;
+}
+
+.slide img {
+  width: 100%;
+  height: auto;
+  text-align: center;
+}
+
+.dots {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: gray;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.active {
+  background-color: black;
+}
+.size{
+  font-size: large;
+  color: red;
+}
+.bjimg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      min-width: 1000px;
+      z-index: -10;
+      zoom: 1;
+      background-color: #fff;
+      background-image: url(https://gss0.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/f3d3572c11dfa9ec0f3dfeb665d0f703918fc104.jpg) ;
+      background-repeat: no-repeat;
+      background-size: cover;
+      -webkit-background-size: cover;
+      -o-background-size: cover;
+      background-position: center 0;
+    }
+</style>
 </head>
-
 <body>
-  <div class="container">
-    <div class="form-box">
+  <div class="bjimg"></div>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('index') }}">首页</a></li>
+                <li><a href="https://www.youzy.cn/tzy/search/colleges/collegeList">找大学</a></li>
+                <li><a href="major.html">查专业</a></li>
+                <li><a href="{{ url_for('add_selection') }}">智能填报志愿</a></li>
+                <li><a href="C:\Users\86198\Desktop\新建文件夹 (3)\3.html">一分一段表</a></li>
+                <li><a href="{{ url_for('login') }}">我的</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>欢迎来到高考志愿填报网站</h1>
 
-      <div class="register-box hidden" >
-        <h1>register</h1>
-        <input type="text" placeholder="用户名">
-          {{ form.name.label }}<br>
-          {{ form.name }}
-          <br>
-        <input type="email" placeholder="邮箱">
-        <input type="password" placeholder="密码">
-        <input type="password" placeholder="确认密码">
-        <button>注册</button>
+        
+        <p>在这里，你可以找到适合自己的学校和专业。</p>
+
+        <div class="slideshow-container">
+          <div class="slide">
+            <a href="#"><img src="{{ url_for('static', filename='images/image1.jpg') }}" alt="Image 1"></a>
+          </div>
+          <div class="slide">
+            <a href="https://www.whu.edu.cn/xxgk/xxjj.htm"><img src="{{ url_for('static', filename='images/image2.jpg') }}" alt="Image 2"></a>
+          </div>
+          <div class="slide">
+            <a href="https://www.nju.edu.cn/ndgk/ndjj.htm"><img src="{{ url_for('static', filename='images/image3.jpg') }}" alt="Image 3"></a>
+          </div>
+          <div class="slide">
+            <a href="https://www.pku.edu.cn/about.html"><img src="{{ url_for('static', filename='images/image4.jpg') }}" alt="Image 4"></a>
+          </div>
+          <div class="slide">
+            <a href="https://bpic.588ku.com/art_origin_min_pic/21/12/02/6ff5d0d048c5a606c11a7fab73faa73a.jpg"><img src="{{ url_for('static', filename='images/image5.png') }}" alt="Image 5"></a>
+          </div>
+        </div>
+        
+        <div class="dots">
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+    <script>
+      let slides = document.querySelectorAll('.slide');
+  let dots = document.querySelectorAll('.dot');
+  let currentSlide = 0;
+  
+  // 显示当前幻灯片和圆点
+  function showSlide(n) {
+    slides[currentSlide].style.display = 'none';
+    dots[currentSlide].classList.remove('active');
+    currentSlide = (n + slides.length) % slides.length;
+    slides[currentSlide].style.display = 'block';
+    dots[currentSlide].classList.add('active');
+  }
+  
+  // 点击圆点切换幻灯片
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+      showSlide(index);
+    });
+  });
+  
+  // 自动播放幻灯片
+  setInterval(() => {
+    showSlide(currentSlide + 1);
+  }, 3000);
+    </script>
+
+
+
+    </main>
+        <h2>热门院校</h2>
+          <h3>山东省内高校</h3>
+          <div class="flex-container">
+            <span><a href="https://www.sdu.edu.cn/sdgk/sdjj.htm" class="box-link">
+            <img src="{{ url_for('static', filename='images/山东大学.jpg') }}" alt="图片" >
+            <div><strong>山东大学</strong></div>
+            <div>普通本科|985/211|双一流</div>
+          </a></span>
+          <span><a href="http://www.ouc.edu.cn/xxjj/list.htm" class="box-link">
+            <img src="{{ url_for('static', filename='images/海洋大学.jpg') }}" alt="图片" >
+            <div><strong>中国海洋大学</strong></div>
+            <div>普通本科|985/211|双一流</div>
+          </a></span>
+          <span><a href="https://www.upc.edu.cn" class="box-link">
+          <img src="{{ url_for('static', filename='images/upc.jpg') }}" alt="图片" >
+          <div><strong>中国石油大学（华东）</strong></div>
+          <div>普通本科|211|双一流</div>
+           </a></span>
+          </div>
+         
+  <h3>山东省外高校</h3>
+  <div class="flex-container"><span><a href="https://www.pku.edu.cn/about.html" class="box-link">
+    <img src="{{ url_for('static', filename='images/北京大学.jpg') }}" alt="图片" >
+    <div><strong>北京大学</strong></div>
+    <div>普通本科|985/211|双一流</div>
+  </a></span>
+  <span><a href="https://www.tsinghua.edu.cn/xxgk/xxyg.htm" class="box-link">
+    <img src="{{ url_for('static', filename='images/thu.jpg') }}" alt="图片" >
+    <div><strong>清华大学</strong></div>
+    <div>普通本科|985/211|双一流</div>
+  </a></span>
+  <span><a href="https://www.fudan.edu.cn/fdjj/list.htm" class="box-link">
+    <img src="{{ url_for('static', filename='images/复旦.jpg') }}" alt="图片" >
+    <div><strong>复旦大学</strong></div>
+    <div>普通本科|985/211|双一流</div>
+  </a></span></div>
+  
+  <br><div class="right"><a href="https://www.youzy.cn/tzy/search/colleges/collegeList">更多</a></div>
+
+    
+
+        <h2>热门专业</h2>
+        <div class="flex-container">
+        <span><a href="https://baike.baidu.com/item/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E4%B8%8E%E6%8A%80%E6%9C%AF/663582" class="box-link1">
+          <img src="{{ url_for('static', filename='images/pic1.jpg') }}" alt="图片" >
+          <strong>计算机科学与技术</strong>
+          
+        </a></span>
+        <span><a href="https://baike.baidu.com/item/%E6%B3%95%E5%AD%A6/23558?fromModule=lemma_search-box" class="box-link1">
+          <img src="{{ url_for('static', filename='images/法学.jpg') }}" alt="图片" >
+          <strong>法学</strong>
+          
+        </a></span>
+        <span><a href="https://baike.baidu.com/item/%E7%94%B5%E5%AD%90%E4%BF%A1%E6%81%AF%E5%B7%A5%E7%A8%8B?fromModule=lemma_search-box" class="box-link1">
+          <img src="{{ url_for('static', filename='images/电子.jpg') }}" alt="图片" >
+          <strong>电子信息工程</strong>
+        </a></span>
       </div>
-      <div class="login-box" >
-        <h1>login</h1>
-        <input type="text" placeholder="用户名">
-        <input type="password" placeholder="密码">
-        <button>登录</button>
-      </div>
-    </div>
-    <div class="con-box left">
-      <h2>欢迎来到<span>高考志愿填报</span></h2>
-      <p>快来领取你的专属<span>志愿单</span>吧</p>
-      <img src="{{ url_for('static', filename='images/登录页面1.jpg') }}" alt="1">
-      <p>已有账号</p>
-      <button id="login">去登陆</button>
-    </div>
-    <div class="con-box right">
-      <h2>欢迎来到<span>高考志愿填报</span></h2>
-      <p>快来看看你合适的<span>大学</span>吧</p>
-      <img src="C:\Users\86198\Pictures\登陆页面2.jpg" alt="2">
-      <p>没有账号</p>
-      <button id="register">去注册</button>
-    </div>
-  </div>
-  <script>
-    let login=document.getElementById('login');
-    let register=document.getElementById('register');
-    let form_box=document.getElementsByClassName('form-box')[0];
-    let register_box=document.getElementsByClassName
-    ('register-box')[0];
-    let login_box=document.getElementsByClassName('login-box')[0];
+      <div class="flex-container">
+        <span><a href="https://baike.baidu.com/item/%E7%94%B5%E6%B0%94%E5%B7%A5%E7%A8%8B%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E5%8C%96?fromModule=lemma_search-box" class="box-link1">
+        <img src="{{ url_for('static', filename='images/电气.jpg') }}" alt="图片" >
+        <strong>电气工程及其自动化</strong>
+      </a></span>
+        <span><a href="https://baike.baidu.com/item/%E4%B8%B4%E5%BA%8A%E5%8C%BB%E5%AD%A6/16821824?fromModule=lemma_search-box" class="box-link1">
+          <img src="{{ url_for('static', filename='images/临床医学.jpg') }}" alt="图片" >
+          <strong>临床医学</strong>
+        </a></span>
+      
+        <span><a href="https://baike.baidu.com/item/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6%E4%B8%8E%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF?fromModule=lemma_search-box" class="box-link1">
+          <img src="{{ url_for('static', filename='images/数据科学.jpg') }}" alt="图片" >
+          <strong>数据科学与大数据技术</strong>
+        </a></span>
+        </div>
+        
+          
+          <br><div class="right"><a href="https://www.youzy.cn/tzy/search/colleges/collegeList">更多</a></div>
+          
 
-    register.addEventListener('click',()=>{
-      form_box.style.transform='translate(80%)';
-      login_box.classList.add('hidden');
-      register_box.classList.remove('hidden');
-    })
-    login.addEventListener('click',()=>{
-      form_box.style.transform='translate(0%)';
-      register_box.classList.add('hidden');
-      login_box.classList.remove('hidden');
-    })
-  </script>
-
+      
+        <h3>最新资讯</h3>
+        <nav1>
+        <ul>
+          <li><a href="https://www.sdzk.cn/NewsInfo.aspx?NewsID=6256">山东省2023年普通类（特殊类型批和常规批本科计划）、艺术类本科批、体育类（常规批本科计划）和春季高考本科批第1次志愿填报注意事项</a></li>
+          <li><a href="https://www.sdzk.cn/NewsInfo.aspx?NewsID=6245">山东省2023年普通类提前批（含高水平运动员）、体育类提前批、艺术类本科提前批及春季高考本科提前批第1次志愿填报有关注意事项</a></li>
+          <li><a href="https://www.sdzk.cn/NewsInfo.aspx?NewsID=6284">山东省2023年普通高校招生艺术类本科批第2次志愿、春季高考本科批第2次志愿填报注意事项</a></li>
+        </ul>
+        </nav1>
+        <div class="right"><a href="https://www.sdzk.cn/">更多</a></div>
+<main>
+    <div class="size"><p><strong>祝同学们前程似锦、未来可期！</strong></p></div>
+    </main>
+      <footer>
+        <p>版权所有 © 2023 高考志愿填报网站</p>
+      </footer>
 </body>
-
 </html>
+
+
+
+
+
+   
 
 

@@ -1,0 +1,216 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>志愿表</title>
+  <style>
+    .flex-container {
+      display: -webkit-flex;
+      display: flex;
+      -webkit-flex-direction: column;
+      flex-direction: column;
+      width: 80%;
+      height: auto;
+      background-color: lightgrey;
+      padding: 10px;
+    }
+
+    .flex-item {
+      background-color: white;
+      border-radius: 8px;
+      width: 60%px;
+      height: auto;
+      margin: 10px;
+      padding: 10px;
+    }
+
+    .size {
+      color: grey;
+      font-size: smaller;
+    }
+
+    .box {
+      padding: 10px;
+      background-color: lightblue;
+      border: 1px solid lightblue;
+      border-radius: 4px;
+    }
+
+    .box1 {
+      border-radius: 4px;
+      border: 1px solid orange;
+      color: orange;
+      text-align: center;
+      width: 60px;
+      height: auto;
+    }
+
+    .right {
+      float: right;
+    }
+
+    .model {
+      margin-left: 150px;
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    .flex-container1 {
+      display: -webkit-flex;
+      display: flex;
+      -webkit-justify-content: center;
+      justify-content: center;
+      width: 100%;
+      height: auto;
+      
+      padding: 10px;
+    }
+
+    .flex-item1 {
+      background-color: #87CEFA;
+      border-radius: 8px;
+      width: 50%;
+      height: auto;
+      margin: 10px;
+      padding: 10px;
+    }
+
+    .flex-item2 {
+      background-color: lightgrey;
+      border-radius: 8px;
+      width: 50%;
+      height: auto;
+      margin: 10px;
+      padding: 10px;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 80%;
+    }
+
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    .ziti{
+      font-size: larger;
+      font-weight: 800;
+    }
+    .button1:hover {
+    background-color: #f44336;
+    color: white;
+}
+.button1:active {
+  background-color: #f44336;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+.button{
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+.button:hover {
+    background-color: white;
+    color: #4CAF50;
+}
+  </style>
+</head>
+
+<body>
+  <div class="flex-container1">
+    <button class="button" onclick="showTab('tab1')">详细展示</button>
+    <button class="button" onclick="showTab('tab2')">表格展示</button>
+  </div>
+  <div class="flex-container1">
+    <div id="tab1" class="flex-item1">
+      <h2>我的志愿</h2>
+      <p>{{ total }}/96 | 普通类一段 山东 {{ info.subject1 }} {{ info.subject2 }} {{ info.subject3 }} {{ info.score }}</p>
+      <div class="flex-container">
+      {% for User in Users %}
+        <div class="flex-item">
+            <span class="ziti">{{ User.id }}. {{ User.school }}</span>
+            <form action="/selection/" method="post">
+                {{ form.csrf_token }}
+                {{ form.id(value=User.id) }}
+            <span class="right"><button class="button1">删除</button></span>
+            </form>
+          <p>
+          <div class="size">{{ User.feature }}</div>
+          </p>
+          <p>
+          <div class="box"><strong>{{ User.specialty }}</strong>
+            <div class="right">
+              <div class="box1">{{ User.probability }}%</div>
+            </div>
+            <p>22年最低位次 {{ User.lowest_rank }}</p>
+          </div>
+          </p>
+        </div>
+      {% endfor %}
+      </div>
+    </div>
+    <div id="tab2" class="flex-item2" style="display: none;">
+      <h3>我的志愿 山东 {{ info.subject1 }}/{{ info.subject2 }}/{{ info.subject3 }} {{ info.score }}分/{{ info.rank }}名 普通类一段</h3>
+      <p>
+      <table>
+        <tr>
+          <th>志愿序号</th>
+          <th>院校名称</th>
+          <th>专业名称</th>
+          <th>排名2022</th>
+        </tr>
+        {% for User in Users %}
+        <tr>
+          <td>志愿{{ User.id }}</td>
+          <td>{{ User.school }}</td>
+          <td>{{ User.specialty }}</td>
+          <td>{{ User.lowest_rank }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+      </p>
+    </div>
+  </div>
+  <script>
+    function showTab(tabId) {
+      var tab1 = document.getElementById('tab1');
+      var tab2 = document.getElementById('tab2');
+
+      if (tabId === 'tab1') {
+        tab1.style.display = 'block';
+        tab2.style.display = 'none';
+      } else if (tabId === 'tab2') {
+        tab1.style.display = 'none';
+        tab2.style.display = 'block';
+      }
+    }
+
+  </script>
+</body>
+
+</html>
