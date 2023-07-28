@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"> 
+<title>查专业</title>
+<style>
+  .info {
+        display: none;
+      }
+      form.example input[type=text] {
+    padding: 10px;
+    font-size: 17px;
+    border: 1px solid grey;
+    margin-left: 130px;
+    width: 80%;
+    background: #f1f1f1;
+  }
+  
+  .box{
+      border-top-style: 0px;
+      border-bottom-style: 0px;
+      border-right-style: 0px;
+      border-left-style: solid;
+      border-color:red;
+      width:50%;
+      height:auto;
+      font-size:35px;
+      padding:0 20px;
+  }
+  .flex-container {
+      display: -webkit-flex;
+      display: flex;
+      -webkit-flex-wrap: wrap;
+      flex-wrap: wrap;
+      width: 1100px;
+      height: auto;
+      background-color: lightgrey;
+      border-radius: 4px;
+  }
+  
+  .flex-container1 {
+      display: -webkit-flex;
+      display: flex;
+      -webkit-flex-wrap: wrap;
+      flex-wrap: wrap;
+      width: 1100px;
+      height: auto;
+  }
+  .flex-item {
+      width: 180px;
+      height: auto;
+      margin: 20px 40px;
+      font-size: 25px;
+  }
+  
+  .flex-item1 {
+      width: auto;
+      height: auto;
+      margin: 10px;
+  }
+  .button1 {
+      border: 1px solid black;
+      color: black;
+      border-radius: 4px;
+      padding: 5px 10px;
+      margin: 10px 10px;
+  }
+  .button {
+      border: 1px solid black;
+      color: black;
+      border-radius: 4px;
+      padding: 5px 10px;
+      margin: 10px 10px;
+  }
+  .button:hover {
+      color: orange;
+      border: 1px solid orange;
+  }
+  .button:focus{
+    color: orange;
+      border: 1px solid orange;
+  }
+  body {
+    margin: 0;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 15%;
+    background-color: #f1f1f1;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+}
+
+li a {
+    display: block;
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+li a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+li a:hover:not(.active) {
+    background-color: #555;
+    color: white;
+}
+.bjimg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      min-width: 1000px;
+      z-index: -10;
+      zoom: 1;
+      background-color: #fff;
+      background-image: url(https://ts1.cn.mm.bing.net/th/id/R-C.247734d9b3553630dada1cc7929df127?rik=Kj8%2bxMIfWsPNhg&riu=http%3a%2f%2fpic.pptbz.com%2fpptpic%2f201105%2f2011051707482399.jpg&ehk=3fPnHXyUTW6v1jhL11nYqFGvmbUg%2f8GWtE2QAERuv%2fI%3d&risl=&pid=ImgRaw&r=0);
+      background-repeat: no-repeat;
+      background-size: cover;
+      -webkit-background-size: cover;
+      -o-background-size: cover;
+      background-position: center 0;
+    }
+  </style>
+</head>
+
+<body>
+<div class="bjimg"></div>
+<ul>
+     <li><a href="{{ url_for('index') }}">首页</a></li>
+    <li><a href="{{ url_for('find_school') }}">找大学</a></li>
+    <li><a class="active"href="{{ url_for('find_specialty') }}">查专业</a></li>
+    <li><a href="{{ url_for('add_selection') }}">智能填报志愿</a></li>
+    <li><a  href="{{ url_for('chart') }}">一分一段表</a></li>
+    <li><a href="{{ url_for('login') }}">我的</a></li>
+
+  </ul>
+<div style="margin-left:20%;">
+    <form class="example"><input type="text" id="search" oninput="searchInfo()" placeholder="输入关键字搜索"></form>
+    <br>
+    专业类
+    <button class="button1" id="all" onclick="showAll()">全部</button> 
+    {% for type in types %}
+    <button class="button" id="{{type.type}}" onclick="showRegion('{{type.type}}')">{{type.type}}</button>
+    {% endfor %}
+
+
+<div id="info-container">
+    {% for list in lists %}
+    <div class="info" data-region={{list[0]}}>
+    <p><div class="box">&nbsp;&nbsp;{{list[0]}}</div></p>
+    <p><div class="flex-container">
+        <!-- <div class="flex-item">逻辑学</div>  -->
+        {% for spe in list[1::] %}
+        <div class="flex-item">{{spe}}</div>
+        {%endfor%}
+        <!-- <div class="flex-item">ceshi</div>   -->
+    </div></p>
+    </div>
+    {%endfor%}
+</div>
+</div>
+<script>
+    function showAll() {
+      var infos = document.getElementsByClassName('info');
+      for (var i = 0; i < infos.length; i++) {
+        infos[i].style.display = "block";
+      }
+    }
+
+    function showRegion(region) {
+      var infos = document.getElementsByClassName('info');
+      for (var i = 0; i < infos.length; i++) {
+        if (infos[i].getAttribute('data-region') === region) {
+          infos[i].style.display = "block";
+        } else {
+          infos[i].style.display = "none";
+        }
+      }
+    }
+
+    function searchInfo() {
+      var searchInput = document.getElementById('search');
+      var keyword = searchInput.value.toLowerCase();
+      var infos = document.getElementsByClassName('info');
+      for (var i = 0; i < infos.length; i++) {
+        var text = infos[i].innerText.toLowerCase();
+        if (text.includes(keyword)) {
+          infos[i].style.display = "block";
+        } else {
+          infos[i].style.display = "none";
+        }
+      }
+    }
+    // 在页面加载完成后自动点击按钮
+    window.onload = function() {
+      var button = document.getElementById("all");
+      button.click();
+    };
+  </script>
+</body>
+</html>

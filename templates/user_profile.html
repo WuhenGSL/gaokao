@@ -8,7 +8,6 @@
             display:-webkit-flex;
             width: 100%;
             height: 250px;
-            background-color: lightgrey;
         }
 
         .text {
@@ -31,7 +30,7 @@
         }
         .box-link {
       display: inline-block;
-      width: 400px;
+      width: 300px;
       border: 1px solid #000;
       padding: 10px;
       text-decoration: none;
@@ -42,7 +41,7 @@
     }
     .box-link1 {
       display: inline-block;
-      width: 400px;
+      width: 300px;
       border: 1px solid #000;
       padding: 10px;
       text-decoration: none;
@@ -53,9 +52,69 @@
       text-align: center;
       border-radius: 10px;
     }
+    body {
+    margin: 0;
+
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 15%;
+    background-color: #f1f1f1;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+}
+
+li a {
+    display: block;
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+li a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+li a:hover:not(.active) {
+    background-color: #555;
+    color: white;
+}
+.bjimg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      min-width: 1000px;
+      z-index: -10;
+      zoom: 1;
+      background-color: #fff;
+      background-image: url(https://ts1.cn.mm.bing.net/th/id/R-C.9082b4d9e92403d7cf2ab7ba25f95626?rik=usIGktAu%2b9u13A&riu=http%3a%2f%2fimg.pptjia.com%2fimage%2f20180313%2f24ae4feb716fe64101fe8b1a6017fe23.jpg&ehk=9Kx6FP84YMoHeT15Py78NKwb3TaXx8P2lxwE6p0t8kQ%3d&risl=&pid=ImgRaw&r=0) ;
+      background-repeat: no-repeat;
+      background-size: cover;
+      -webkit-background-size: cover;
+      -o-background-size: cover;
+      background-position: center 0;
+    }
     </style>
 </head>
 <body>
+<div class="bjimg"></div>
+<ul>
+     <li><a href="{{ url_for('index') }}">首页</a></li>
+    <li><a href="{{ url_for('find_school') }}">找大学</a></li>
+    <li><a href="{{ url_for('find_specialty') }}">查专业</a></li>
+    <li><a href="{{ url_for('add_selection') }}">智能填报志愿</a></li>
+    <li><a href="{{ url_for('chart') }}">一分一段表</a></li>
+    <li><a class="active" href="{{ url_for('login') }}">我的</a></li>
+
+  </ul>
+<div style="margin-left:18%;">
     <div class=center><h1>我的高考</h1></div>
     <div class="flex-container">
         <div class="text">
@@ -70,9 +129,10 @@
     <a href="{{ url_for('profile') }}" class="box-link1">
         <strong>修改我的高考成绩</strong>
     </a>
-    <a href="https://www.runoob.com/html/html-editors.html" class="box-link">
+    <a href="{{ url_for('selection') }}" class="box-link">
         <strong>管理我的志愿表</strong>
     </a>
     <div class="center"><a href="{{ url_for('logout') }}" class="button">退出登录</a></div>
+</div>
 </body>
 </html>

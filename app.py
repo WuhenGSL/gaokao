@@ -1,5 +1,6 @@
-from flask import Flask, flash, redirect, request, url_for, render_template, session, render_template_string
-from models import RegisterForm, db, LoginForm, User, Schools, UserSelection, AddSelectionForm
+from flask import Flask, flash, redirect, request, url_for, render_template, session, render_template_string, jsonify
+from models import RegisterForm, db, LoginForm, User, Schools, UserSelection, AddSelectionForm, Tyca, Specialty
+from models import Feature, Province, Display
 from sqlalchemy.sql import or_
 
 app = Flask(__name__)
@@ -216,6 +217,33 @@ def selection():
                 """)
 
     return render_template('selection.html', Users=user, info=information, total=total, form=form)
+
+
+@app.route('/specialty')
+def find_specialty():
+    types = Tyca.query.filter()
+    lists = []
+    for i in types:
+        listt = [i.type]
+        specialties = Specialty.query.filter(Specialty.type == i.type)
+        for j in specialties:
+            listt.append(j.specialty)
+        lists.append(listt)
+    return render_template('specialty.html', lists=lists, types=types)
+
+
+@app.route('/school/', methods=['GET', 'POST'])
+def find_school():
+    features = Feature.query.filter()  # 所有特色query
+    provinces = Province.query.filter()  # 所有省query
+    schools = Display.query.filter()  # 所有大学query
+    return render_template('school.html', provinces=provinces, features=features, schools=schools)
+
+
+@app.route('/chart')
+def chart():
+
+    return render_template('chart.html')
 
 
 if __name__ == '__main__':

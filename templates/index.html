@@ -2,7 +2,6 @@
 <html>
 <head>
     <title>高考志愿填报网站</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
     <style>
         /* 页面样式 */
 body {
@@ -173,10 +172,10 @@ nav1 ul a{
         <nav>
             <ul>
                 <li><a href="{{ url_for('index') }}">首页</a></li>
-                <li><a href="https://www.youzy.cn/tzy/search/colleges/collegeList">找大学</a></li>
-                <li><a href="major.html">查专业</a></li>
+                <li><a href="{{ url_for('find_school') }}">找大学</a></li>
+                <li><a href="{{ url_for('find_specialty') }}">查专业</a></li>
                 <li><a href="{{ url_for('add_selection') }}">智能填报志愿</a></li>
-                <li><a href="C:\Users\86198\Desktop\新建文件夹 (3)\3.html">一分一段表</a></li>
+                <li><a href="{{ url_for('chart') }}">一分一段表</a></li>
                 <li><a href="{{ url_for('login') }}">我的</a></li>
             </ul>
         </nav>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=!, initial-scale=1.0">
+    <title>一分一段表</title>
+</head>
+<style>
+.center{
+    text-align: center;
+}
+body {
+    margin: 0;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 15%;
+    background-color: #f1f1f1;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+}
+
+li a {
+    display: block;
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+li a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+li a:hover:not(.active) {
+    background-color: #555;
+    color: white;
+}
+</style>
+<body>
+<ul>
+     <li><a href="{{ url_for('index') }}">首页</a></li>
+    <li><a href="{{ url_for('find_school') }}">找大学</a></li>
+    <li><a href="{{ url_for('find_specialty') }}">查专业</a></li>
+    <li><a href="{{ url_for('add_selection') }}">智能填报志愿</a></li>
+    <li><a class="active" href="{{ url_for('chart') }}">一分一段表</a></li>
+    <li><a href="{{ url_for('login') }}">我的</a></li>
+
+  </ul>
+<div style="margin-left:20%;">
+    <h1 class="center">一分一段表</h1>
+    <div class="center">
+        <img src="{{ url_for('static', filename='images/一分一段.png') }}" alt="一分一段" width="80%" height="auto">
+    </div>
+</div>
+</body>
+</html>

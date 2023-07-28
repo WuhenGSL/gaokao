@@ -8,27 +8,26 @@
     display: -webkit-flex;
     display: flex;
     width: width;
-    height: 150px;
+    height: 160px;
     -webkit-justify-content: space-around;
     justify-content: space-around;
-    background-color: lightgrey;
     border-bottom: 1px solid black;
 }
 
 .flex-item {
-    
+
     width: 15%;
     height: 100px;
     margin: 10px;
 }
 .flex-item1 {
-   
+
     width: 5%;
     height: 100px;
     margin: 10px;
 }
 .flex-item2 {
-    
+
     width: 25%;
     height: 100px;
     margin: 10px;
@@ -84,29 +83,110 @@
     height: 40px;
     -webkit-justify-content: space-around;
     justify-content: space-around;
-    background-color: gray;
+    background-color: lightgrey;
     border-bottom: 1px solid black;
+    margin-top: 60px;
 }
-.right{
-  float:right;
-  font-size: larger;
-  color:lightblue;
-}
+
 header {
-    height: 90px;
+    padding: 20px;
     text-align: center;
 }
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a {
+    color: #666;
+    text-decoration: none;
+    padding: 10px;
+}
+
+nav ul li a:hover {
+    background-color: #ddd;
+}
+nav ul li a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.center{
+  text-align: center;
+}
+ .back-top{
+            position: sticky;
+            top: 700px;
+            height: 0px;
+            float: right;
+            right: 10px;
+        }
+        .back-top>a{
+            display: block;
+            width: 70px;
+            height: 70px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 15px;
+            line-height: 70px;
+            border-radius: 50px;
+            background: #4CAF50;
+            color:white;
+        }
+
+
   /*消除下划线*/
   a{TEXT-DECORATION:none}
+
+  .bjimg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      min-width: 1000px;
+      z-index: -10;
+      zoom: 1;
+      background-color: #fff;
+      background-image: url(https://img.tukuppt.com/ad_preview/00/03/67/5c98ae4fe6577.jpg!/fw/780) ;
+      background-repeat: no-repeat;
+      background-size: cover;
+      -webkit-background-size: cover;
+      -o-background-size: cover;
+      background-position: center 0;
+    }
 </style>
 </head>
 <body>
+<div class="bjimg"></div>
+  <!-- 返回顶部按钮，这里需要放置在自己指定的位置，以此实现网页浏览到这里时，出现返回顶部按钮 -->
+<div class="back-top">
+  <a href="#top">返回顶部</a>
+</div>
+ <header>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('index') }}">首页</a></li>
+    <li><a href="{{ url_for('find_school') }}">找大学</a></li>
+    <li><a href="{{ url_for('find_specialty') }}">查专业</a></li>
+    <li><a class="active" href="{{ url_for('add_selection') }}">智能填报志愿</a></li>
+    <li><a href="{{ url_for('chart') }}">一分一段表</a></li>
+    <li><a  href="{{ url_for('login') }}">我的</a></li>
+        </ul>
+    </nav>
+</header>
   <header>
-  <h1>智能填报志愿</h1>
-  <p><div class="right"><a href="{{ url_for('selection') }}">查看我的志愿单</a></div></p>
+  <h1 class="center">智能填报志愿</h1>
+ <a href="{{ url_for('selection') }}" style="float:right;">查看我的志愿单</a>
   </header>
   <div class="flex-container1">
-      <div class="flex-item1"> &nbsp;录取概率</div>
+      <div class="flex-item1"> &nbsp;&nbsp;&nbsp;&nbsp;概率</div>
       <div class="flex-item">招生院校</div>
       <div class="flex-item">2023招生计划</div>
       <div class="flex-item2">历年 &nbsp;2021 &nbsp;&nbsp;2022 &nbsp;&nbsp;2023</div>  

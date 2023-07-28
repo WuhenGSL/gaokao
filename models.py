@@ -83,4 +83,46 @@ class UserSelection(db.Model):
 
 class AddSelectionForm(FlaskForm):
     id = HiddenField('id')
+    subject = HiddenField('subject')
     submit = SubmitField('添加到志愿单')
+
+
+class Specialty(db.Model):
+    __bind_key__ = 'database'
+    __tablename__ = 'specialty'
+
+    specialty = db.Column(db.String(255), primary_key=True)
+    type = db.Column(db.String(255))
+    category = db.Column(db.String(255))
+    mustspe = db.Column(db.String(255))
+    synopsis = db.Column(db.String(2500))
+
+
+class Tyca(db.Model):
+    __bind_key__ = 'database'
+    __tablename__ = 'tyca'
+
+    type = db.Column(db.String(255), primary_key=True)
+
+
+class Feature(db.Model):
+    __bind_key__ = 'database'
+    __tablename__='feature'
+    feature = db.Column(db.String(255), primary_key=True)
+
+
+class Province(db.Model):
+    __bind_key__ = 'database'
+    __tablename__='province'
+    province = db.Column(db.String(255), primary_key=True)
+
+
+class Display(db.Model):
+    __bind_key__ = 'database'
+    __tablename__ = 'school'
+
+    id = db.Column(db.Integer)
+    university = db.Column(db.String(255), primary_key=True)
+    region = db.Column(db.String(255))
+    url = db.Column(db.String(255))
+    level = db.Column(db.String(255))
