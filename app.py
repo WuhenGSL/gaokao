@@ -40,10 +40,10 @@ def login():
 
                 if user and user.check_password(password):
                     session['user_name'] = user.name
-                    flash('登录成功', 'success')
+                    flash('登录成功')
                     return redirect(url_for('index'))  # 重定向到根目录
                 else:
-                    flash('登录失败，请检查邮箱或密码', 'error')
+                    flash('登录失败，请检查邮箱或密码')
 
         elif request.form['action'] == 'register':
             if register_form.validate_on_submit():
@@ -53,14 +53,14 @@ def login():
                 confirm_password = register_form.confirm_password.data
 
                 if User.query.filter_by(email=email).all():
-                    flash('该邮箱已被注册', 'error')
+                    flash('该邮箱已被注册')
                 elif password != confirm_password:
-                    flash('确认密码与密码不一致', 'error')
+                    flash('确认密码与密码不一致')
                 else:
                     new_user = User(name=name, email=email, password=password)
                     db.session.add(new_user)
                     db.session.commit()
-                    flash('注册成功', 'success')
+                    flash('注册成功')
 
     return render_template('login.html', login_form=login_form, register_form=register_form)
 
